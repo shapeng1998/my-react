@@ -13,11 +13,11 @@ export interface Properties {
   textNode?: string;
 }
 
-export interface SetStateAction<T> {
+export interface SetStateAction<T = unknown> {
   (prevState: T): T;
 }
 
-export interface StateHook<T> {
+export interface StateHook<T = unknown> {
   state: T;
   queue: SetStateAction<T>[];
 }
