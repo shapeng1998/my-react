@@ -1,13 +1,13 @@
-import type { DOMNode, Fiber, MyReactElement } from './types';
+import type { DOMNode, Fiber, MyReactElement } from './types'
 
 interface Globals {
-  nextUnitOfWork: Fiber | null;
-  currentRoot: Fiber | null;
-  wipRoot: Fiber | null;
-  deletions: Fiber[];
+  nextUnitOfWork: Fiber | null
+  currentRoot: Fiber | null
+  wipRoot: Fiber | null
+  deletions: Fiber[]
 
-  wipFiber: Fiber | null;
-  hookIndex: number | null;
+  wipFiber: Fiber | null
+  hookIndex: number | null
 }
 
 const globals: Globals = {
@@ -18,7 +18,7 @@ const globals: Globals = {
 
   wipFiber: null,
   hookIndex: null,
-};
+}
 
 function render(element: MyReactElement, container: DOMNode) {
   globals.wipRoot = {
@@ -27,11 +27,11 @@ function render(element: MyReactElement, container: DOMNode) {
       children: [element],
     },
     alternate: globals.currentRoot,
-  };
-  globals.deletions = [];
-  globals.nextUnitOfWork = globals.wipRoot;
+  }
+  globals.deletions = []
+  globals.nextUnitOfWork = globals.wipRoot
 }
 
-export { render };
+export { render }
 
-export default globals;
+export default globals

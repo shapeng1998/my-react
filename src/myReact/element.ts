@@ -1,4 +1,4 @@
-import type { MyReactElement, Properties } from './types';
+import type { MyReactElement, Properties } from './types'
 
 function createElement(
   type: string,
@@ -9,11 +9,11 @@ function createElement(
     type,
     props: {
       ...props,
-      children: children.map((child) =>
-        typeof child === 'object' ? child : createTextElement(child)
+      children: children.map(child =>
+        typeof child === 'object' ? child : createTextElement(child),
       ),
     },
-  };
+  }
 }
 
 function createTextElement(text: string): MyReactElement {
@@ -23,7 +23,7 @@ function createTextElement(text: string): MyReactElement {
       nodeValue: text,
       children: [],
     },
-  };
+  }
 }
 
-export { createElement };
+export { createElement }

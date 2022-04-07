@@ -1,15 +1,15 @@
-import { render } from './globals';
-import { createElement } from './element';
-import { workLoop } from './scheduler';
-import { useState } from './hooks';
+import { render } from './globals'
+import { createElement } from './element'
+import { workLoop } from './scheduler'
+import { useState } from './hooks'
 
 // Start the work loop
-requestIdleCallback(workLoop);
+requestIdleCallback(workLoop)
 
 const MyReact = {
   createElement,
   render,
   useState,
-};
+}
 
-export default MyReact;
+export default MyReact
