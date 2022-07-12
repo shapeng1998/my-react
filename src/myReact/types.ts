@@ -2,15 +2,15 @@ export type EffectTag = 'UPDATE' | 'PLACEMENT' | 'DELETION'
 
 export type DOMNode = HTMLElement | Text
 
+export interface Properties {
+  [key: string]: unknown
+  children: MyReactElement[]
+  textNode?: string
+}
+
 export interface MyReactElement {
   type: string
   props: Properties
-}
-
-export interface Properties {
-  [key: string]: any
-  children: MyReactElement[]
-  textNode?: string
 }
 
 export interface SetStateAction<T = unknown> {

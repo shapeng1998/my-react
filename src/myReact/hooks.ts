@@ -2,10 +2,12 @@ import globals from './globals'
 import type { SetStateAction, StateHook } from './types'
 
 function useState<T>(initial: T) {
-  const oldHook
-    = globals.wipFiber?.alternate
-    && globals.wipFiber.alternate.hooks
-    && (globals.wipFiber.alternate.hooks[globals.hookIndex!] as StateHook<T>)
+  const oldHook =
+    globals.wipFiber?.alternate &&
+    globals.wipFiber.alternate.hooks &&
+    (globals.wipFiber.alternate.hooks[
+      globals.hookIndex as number
+    ] as StateHook<T>)
   const hook: StateHook<T> = {
     state: oldHook?.state ?? initial,
     queue: [],
@@ -28,7 +30,7 @@ function useState<T>(initial: T) {
   }
 
   globals.wipFiber?.hooks?.push(hook)
-  globals.hookIndex!++
+  ;(globals.hookIndex as number)++
   return [hook.state, setState] as const
 }
 

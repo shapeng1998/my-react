@@ -19,8 +19,8 @@ function updateDom(dom: DOMNode, prevProps: Properties, nextProps: Properties) {
   Object.keys(prevProps)
     .filter(isEvent)
     .filter(
-      key =>
-        isNew(prevProps, nextProps)(key) || isGone(prevProps, nextProps)(key),
+      (key) =>
+        isNew(prevProps, nextProps)(key) || isGone(prevProps, nextProps)(key)
     )
     .forEach((name) => {
       const eventType = getEventType(name)

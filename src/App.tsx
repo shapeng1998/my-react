@@ -12,8 +12,8 @@ function App({ initialCount, initialLen }: AppProps) {
   const [len, setLen] = useState(initialLen)
   return (
     <div>
-      <h1 onClick={() => setState(c => c + 1)}>Count: {state}</h1>
-      <ul onClick={() => setLen(c => c + 1)}>
+      <h1 onClick={() => setState((c) => c + 1)}>Count: {state}</h1>
+      <ul onClick={() => setLen((c) => c + 1)}>
         {Array.from({ length: len }, (_, i) => (
           <li>{i}</li>
         ))}

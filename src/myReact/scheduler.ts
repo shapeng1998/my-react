@@ -1,7 +1,7 @@
 import globals from './globals'
 import { updateDom } from './utils'
 import { performUnitOfWork } from './reconciler'
-import type { DOMNode, Fiber } from './types'
+import type { DOMNode, Fiber, Properties } from './types'
 
 function workLoop(deadline: IdleDeadline) {
   let shouldYield = false
@@ -30,32 +30,31 @@ function commitRoot() {
 }
 
 function commitWork(fiber?: Fiber | null) {
-  if (!fiber)
-    return
+  if (!fiber) return
 
   // Find the parent of a DOM node (in function component)
   let domParentFiber = fiber.parent
-  while (!domParentFiber?.dom)
-    domParentFiber = domParentFiber?.parent
+  while (!domParentFiber?.dom) domParentFiber = domParentFiber?.parent
 
   const domParent = domParentFiber?.dom
 
   if (fiber.effectTag === 'PLACEMENT' && fiber.dom)
     domParent?.appendChild(fiber.dom)
   else if (fiber.effectTag === 'UPDATE' && fiber.dom)
-    updateDom(fiber.dom, fiber.alternate!.props!, fiber.props!)
-  else if (fiber.effectTag === 'DELETION')
-    commitDeletion(fiber, domParent)
+    updateDom(
+      fiber.dom,
+      (fiber.alternate as Fiber).props as Properties,
+      fiber.props as Properties
+    )
+  else if (fiber.effectTag === 'DELETION') commitDeletion(fiber, domParent)
 
   commitWork(fiber.child)
   commitWork(fiber.sibling)
 }
 
 function commitDeletion(fiber: Fiber, domParent: DOMNode) {
-  if (fiber.dom)
-    domParent.removeChild(fiber.dom)
-  else
-    commitDeletion(fiber.child!, domParent)
+  if (fiber.dom) domParent.removeChild(fiber.dom)
+  else commitDeletion(fiber.child as Fiber, domParent)
 }
 
 export { workLoop }

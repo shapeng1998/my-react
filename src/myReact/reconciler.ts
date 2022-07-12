@@ -9,19 +9,15 @@ import type {
 
 function performUnitOfWork(fiber: Fiber) {
   const isFunctionComponent = fiber.type instanceof Function
-  if (isFunctionComponent)
-    updateFunctionComponent(fiber)
-  else
-    updateHostComponent(fiber)
+  if (isFunctionComponent) updateFunctionComponent(fiber)
+  else updateHostComponent(fiber)
 
   // Find the next fiber and return
-  if (fiber.child)
-    return fiber.child
+  if (fiber.child) return fiber.child
 
   let nextFiber: Fiber | null | undefined = fiber
   while (nextFiber) {
-    if (nextFiber.sibling)
-      return nextFiber.sibling
+    if (nextFiber.sibling) return nextFiber.sibling
 
     nextFiber = nextFiber.parent
   }
@@ -38,11 +34,10 @@ function updateFunctionComponent(fiber: Fiber) {
 }
 
 function updateHostComponent(fiber: Fiber) {
-  if (!fiber.dom)
-    fiber.dom = createDom(fiber)
+  if (!fiber.dom) fiber.dom = createDom(fiber)
 
   const elements = fiber.props?.children.flat()
-  reconcileChildren(fiber, elements!)
+  reconcileChildren(fiber, elements as MyReactElement[])
 }
 
 function reconcileChildren(wipFiber: Fiber, elements: MyReactElement[]) {
@@ -58,9 +53,9 @@ function reconcileChildren(wipFiber: Fiber, elements: MyReactElement[]) {
 
     if (sameType) {
       newFiber = {
-        type: oldFiber!.type,
+        type: (oldFiber as Fiber).type,
         props: element.props,
-        dom: oldFiber!.dom,
+        dom: (oldFiber as Fiber).dom,
         parent: wipFiber,
         alternate: oldFiber,
         effectTag: 'UPDATE',
@@ -81,13 +76,10 @@ function reconcileChildren(wipFiber: Fiber, elements: MyReactElement[]) {
       globals.deletions.push(oldFiber)
     }
 
-    if (oldFiber)
-      oldFiber = oldFiber.sibling
+    if (oldFiber) oldFiber = oldFiber.sibling
 
-    if (index === 0)
-      wipFiber.child = newFiber
-    else if (element)
-      prevSibling!.sibling = newFiber
+    if (index === 0) wipFiber.child = newFiber
+    else if (element) (prevSibling as Fiber).sibling = newFiber
 
     prevSibling = newFiber
     index++
@@ -95,12 +87,12 @@ function reconcileChildren(wipFiber: Fiber, elements: MyReactElement[]) {
 }
 
 function createDom(fiber: Fiber) {
-  const dom
-    = fiber.type === 'TEXT_ELEMENT'
+  const dom =
+    fiber.type === 'TEXT_ELEMENT'
       ? document.createTextNode('')
       : document.createElement(fiber.type as string)
 
-  updateDom(dom, {} as Properties, fiber.props!)
+  updateDom(dom, {} as Properties, fiber.props as Properties)
   return dom
 }
 
